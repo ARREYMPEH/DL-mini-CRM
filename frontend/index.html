@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Agency Mini-CRM</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>Agency<span>CRM</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li class="active" id="nav-prospects"><a href="#" onclick="showListView()">Prospects</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <h2 id="page-title">Prospects</h2>
+                <button class="btn btn-primary" id="add-prospect-btn" onclick="openProspectModal()">+ Add
+                    Prospect</button>
+            </header>
+
+            <!-- Prospect List View -->
+            <section id="list-view" class="content-section">
+                <div class="filters">
+                    <div class="search-box">
+                        <input type="text" id="search-input" placeholder="Search by name or company..."
+                            onkeyup="handleFilter()">
+                    </div>
+                    <div class="filter-controls">
+                        <select id="filter-source" onchange="handleFilter()">
+                            <option value="">All Sources</option>
+                            <option value="WhatsApp">WhatsApp</option>
+                            <option value="Facebook">Facebook</option>
+                            <option value="Instagram">Instagram</option>
+                            <option value="Website">Website</option>
+                        </select>
+                        <select id="filter-status" onchange="handleFilter()">
+                            <option value="">All Statuses</option>
+                            <option value="New">New</option>
+                            <option value="Contacted">Contacted</option>
+                            <option value="In discussion">In discussion</option>
+                            <option value="Converted">Converted</option>
+                            <option value="Lost">Lost</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-card">
+                    <table id="prospects-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Company</th>
+                                <th>Source</th>
+                                <th>Status</th>
+                                <th>Created At</th>
+                                <th class="text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="prospects-body">
+                            <!-- Rows will be injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Prospect Details View -->
+            <section id="details-view" class="content-section hidden">
+                <div class="back-link">
+                    <a href="#" onclick="showListView()">&larr; Back to Prospects</a>
+                </div>
+                <div class="details-grid">
+                    <div class="details-card info-card">
+                        <h3>Prospect Information</h3>
+                        <div id="prospect-info-content">
+                            <!-- Info will be injected -->
+                        </div>
+                    </div>
+                    <div class="details-card messages-card">
+                        <h3>Message Timeline</h3>
+                        <div class="add-message-form">
+                            <form id="message-form" onsubmit="handleMessageSubmit(event)">
+                                <div class="form-row">
+                                    <select id="msg-channel" required>
+                                        <option value="WhatsApp">WhatsApp</option>
+                                        <option value="Facebook">Facebook</option>
+                                        <option value="Instagram">Instagram</option>
+                                        <option value="Website">Website</option>
+                                        <option value="Phone">Phone</option>
+                                        <option value="Email">Email</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <select id="msg-direction" required>
+                                        <option value="Inbound">Inbound</option>
+                                        <option value="Outbound">Outbound</option>
+                                    </select>
+                                </div>
+                                <textarea id="msg-content" placeholder="Type message content..." required></textarea>
+                                <button type="submit" class="btn btn-primary">Save Message</button>
+                            </form>
+                        </div>
+                        <div id="messages-timeline" class="timeline">
+                            <!-- Messages will be injected -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Prospect Modal (Add/Edit) -->
+    <div id="prospect-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Add Prospect</h3>
+                <span class="close" onclick="closeProspectModal()">&times;</span>
+            </div>
+            <form id="prospect-form" onsubmit="handleProspectSubmit(event)">
+                <input type="hidden" id="prospect-id">
+                <div class="form-group">
+                    <label for="p-name">Full Name *</label>
+                    <input type="text" id="p-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="p-company">Company</label>
+                    <input type="text" id="p-company">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="p-phone">Phone</label>
+                        <input type="text" id="p-phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="p-email">Email</label>
+                        <input type="email" id="p-email">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="p-source">Source *</label>
+                        <select id="p-source" required>
+                            <option value="WhatsApp">WhatsApp</option>
+                            <option value="Facebook">Facebook</option>
+                            <option value="Instagram">Instagram</option>
+                            <option value="Website">Website</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="p-status">Status *</label>
+                        <select id="p-status" required>
+                            <option value="New">New</option>
+                            <option value="Contacted">Contacted</option>
+                            <option value="In discussion">In discussion</option>
+                            <option value="Converted">Converted</option>
+                            <option value="Lost">Lost</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="p-notes">General Notes</label>
+                    <textarea id="p-notes"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeProspectModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Prospect</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
