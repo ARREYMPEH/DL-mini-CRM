@@ -9,6 +9,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Serve static frontend files
+const path = require('path');
+app.use(express.static(path.join(__dirname, '../../frontend')));
+
 // Routes
 // Mounting prospects routes
 app.use('/prospects', prospectsRoutes);
