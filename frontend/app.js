@@ -6,7 +6,39 @@ let currentProspectId = null;
 // Initialization
 document.addEventListener('DOMContentLoaded', () => {
     fetchProspects();
+    initMobileNav();
 });
+
+function initMobileNav() {
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+
+    if (menuToggle) {
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        });
+    }
+
+    if (overlay) {
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+    }
+
+    // Close sidebar when clicking a nav link on mobile
+    const navLinks = document.querySelectorAll('.sidebar nav li');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            }
+        });
+    });
+}
 
 // API Calls
 async function fetchProspects() {

@@ -29,6 +29,13 @@ body {
     overflow: hidden;
 }
 
+@media (max-width: 768px) {
+    body {
+        overflow: auto;
+        height: auto;
+    }
+}
+
 .app-container {
     display: flex;
     height: 100vh;
@@ -42,6 +49,8 @@ body {
     padding: 2rem 1.5rem;
     display: flex;
     flex-direction: column;
+    transition: transform 0.3s ease;
+    z-index: 1000;
 }
 
 .logo h1 {
@@ -66,7 +75,8 @@ body {
     transition: background 0.2s;
 }
 
-.sidebar nav li.active, .sidebar nav li:hover {
+.sidebar nav li.active,
+.sidebar nav li:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
@@ -94,6 +104,43 @@ body {
     position: sticky;
     top: 0;
     z-index: 10;
+}
+
+.top-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.menu-toggle span {
+    width: 100%;
+    height: 2px;
+    background-color: var(--text-main);
+    border-radius: 2px;
+}
+
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    backdrop-filter: blur(2px);
 }
 
 .content-section {
@@ -162,6 +209,18 @@ body {
     border-radius: 0.5rem;
     box-shadow: var(--shadow);
     overflow: hidden;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 768px) {
+    .table-card {
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 600px;
+    }
 }
 
 table {
@@ -191,20 +250,43 @@ td {
     font-weight: 600;
 }
 
-.badge-new { background: #e0f2fe; color: #0369a1; }
-.badge-contacted { background: #fef9c3; color: #a16207; }
-.badge-discussion { background: #f3e8ff; color: #7e22ce; }
-.badge-converted { background: #dcfce7; color: #15803d; }
-.badge-lost { background: #fee2e2; color: #b91c1c; }
+.badge-new {
+    background: #e0f2fe;
+    color: #0369a1;
+}
 
-.text-right { text-align: right; }
+.badge-contacted {
+    background: #fef9c3;
+    color: #a16207;
+}
+
+.badge-discussion {
+    background: #f3e8ff;
+    color: #7e22ce;
+}
+
+.badge-converted {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.badge-lost {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.text-right {
+    text-align: right;
+}
 
 /* Modal */
 .modal {
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -242,7 +324,9 @@ td {
     margin-bottom: 0.25rem;
 }
 
-.form-group input, .form-group select, .form-group textarea {
+.form-group input,
+.form-group select,
+.form-group textarea {
     width: 100%;
     padding: 0.625rem;
     border: 1px solid var(--border);
@@ -377,4 +461,84 @@ td {
 
 .toast.error {
     background-color: var(--danger);
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        transform: translateX(-100%);
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .sidebar-overlay.active {
+        display: block;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    .content-section {
+        padding: 1rem;
+    }
+
+    .top-bar {
+        padding: 1rem;
+    }
+
+    .filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-box input {
+        width: 100%;
+    }
+
+    .filter-controls {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .filter-controls select {
+        margin-left: 0;
+        flex: 1;
+    }
+
+    .table-card {
+        overflow-x: auto;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .modal-content {
+        padding: 1.5rem;
+        width: 95%;
+    }
+
+    .message-item.outbound,
+    .message-item.inbound {
+        width: 100%;
+    }
 }
