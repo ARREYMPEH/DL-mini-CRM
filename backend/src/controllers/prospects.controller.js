@@ -1,4 +1,4 @@
-const pool = require('../db/pool');
+const pool = require('../db/database');
 const { validateProspect } = require('../validators/prospects.validator');
 
 const getAllProspects = async (req, res) => {

@@ -1,4 +1,4 @@
-const pool = require('../db/pool');
+const pool = require('../db/database');
 const { validateMessage } = require('../validators/messages.validator');
 
 const getMessagesByProspectId = async (req, res) => {
